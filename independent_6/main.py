@@ -3,6 +3,7 @@ from parser.tokenizer import tokenize
 from analysis.word_stats import *
 from analysis.digit_stats import *
 from output.printer import print_stats
+from output.printer import save_stats_to_json
 
 def read_input():
     #Зчитування вхідних даних з командного рядка або файлу.
@@ -35,8 +36,10 @@ def main():
         "Чисел": count_digits(tokens),
         "Кількість знакозмін": alternation_count(tokens)
     }
-
     print_stats(stats)
+    if "--save" in sys.argv:
+        save_stats_to_json(stats)
+
 
 if __name__ == "__main__":
     main()
