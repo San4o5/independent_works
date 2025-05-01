@@ -6,12 +6,12 @@ from analysis.digit_stats import *
 from output.printer import print_stats
 from output.printer import save_stats_to_json
 from PyPDF2 import PdfReader
-#from cloud.storage import upload_file_to_bucket
-#from cloud.speech_to_text import transcribe_audio
+from cloud.storage import upload_file_to_bucket
+from cloud.speech_to_text import transcribe_audio
 
-
+#Зчитування вхідних даних з командного рядка або файлу.
 def read_input():
-    #Зчитування вхідних даних з командного рядка або файлу.
+    #Якщо кількість аргументів командного рядка менше 2, виводиться помилка.
     if len(sys.argv) < 2:
         raise RuntimeError("Введіть текст або файл!")
     
@@ -19,7 +19,8 @@ def read_input():
     #sys.argv[1] - це перший аргумент
     if sys.argv[1] == '-f':
         filename = sys.argv[2]
-        ext = os.path.splitext(filename)[-1].lower()
+        # Отримуємо розширення файлу (наприклад, .txt або .pdf)
+        ext = os.path.splitext(filename)[-1].lower() 
         
         if ext == '.pdf':
             try:
@@ -27,11 +28,12 @@ def read_input():
                     reader = PdfReader(file)
                     text = ""
                     for page in reader.pages:
+                        # Додаємо текст з кожної сторінки до загального тексту
                         text += page.extract_text()
                     return text
             except Exception:
                 raise RuntimeError(f"Помилка читання PDF: {Exception}")
-
+        # Якщо це не PDF, то припускаємо, що це текстовий файл
         else:
             try:
                 with open(filename, 'r', encoding='utf-8') as file:
@@ -45,6 +47,7 @@ def read_input():
 
 def main():
     filename = None
+    # Якщо в аргументах командного рядка є '-f', отримуємо ім'я файлу
     if "-f" in sys.argv:
         filename = sys.argv[sys.argv.index("-f") + 1]
     
@@ -68,17 +71,20 @@ def main():
     # Друкуємо статистику
     print_stats(stats)
     
+    # Якщо аргумент командного рядка '--save' є, зберігаємо статистику у файл JSON
     if "--save" in sys.argv:
         save_stats_to_json(stats)
 
+    # Якщо аргумент командного рядка '--upload' є, завантажуємо файл на Google Cloud Storage
     if "--upload" in sys.argv:
-        from cloud.storage import upload_file_to_bucket
         upload_file_to_bucket("text-analyzer-sedziro-20250428", filename, os.path.basename(filename))
-        
+    
+    # Якщо аргумент командного рядка '--audio' є, здійснюємо транскрипцію аудіофайлу
     if "--audio" in sys.argv:
-        from cloud.speech_to_text import transcribe_audio
         try:
+            # Отримуємо шлях до аудіофайлу
             audio_path = sys.argv[sys.argv.index("--audio") + 1]
+            
             text = transcribe_audio(audio_path)
             
             with open("output/transcript.txt", "w", encoding="utf-8") as f:
