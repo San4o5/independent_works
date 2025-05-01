@@ -40,3 +40,16 @@ python main.py -f data/test.txt
 | Чисел                       |       0 |
 | Кількість знакозмін         |       0 |
 +-----------------------------+---------+
+
+Створіть віртуальне середовище:
+    ```bash
+    python -m venv venv
+    source venv/bin/activate  # для Linux (якщо використовуєтся fish замість бащ, то .../activate.fish)
+Встановіть залежності:
+    ```bash
+    pip install -r requirements.txt
+    ```
+Запустіть аналіз:
+    ```bash
+    python main.py -f data/test.txt --save --upload
+    ```
