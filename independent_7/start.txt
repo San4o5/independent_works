@@ -1,0 +1,5 @@
+
+python main.py --file data/grades.csv
+
+
+python main.py --file data/grades.csv --group KN-21 --export results.json

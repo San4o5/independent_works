@@ -1,0 +1,42 @@
+[
+    {
+        "name": "Ivanov",
+        "group": "KN-21",
+        "grades": [
+            100,
+            80,
+            90
+        ],
+        "average": 90.0
+    },
+    {
+        "name": "Petrenko",
+        "group": "KN-21",
+        "grades": [
+            90,
+            85,
+            95
+        ],
+        "average": 90.0
+    },
+    {
+        "name": "Shevchenko",
+        "group": "KN-22",
+        "grades": [
+            60,
+            50,
+            70
+        ],
+        "average": 60.0
+    },
+    {
+        "name": "Kravets",
+        "group": "KN-22",
+        "grades": [
+            100,
+            100,
+            100
+        ],
+        "average": 100.0
+    }
+]
